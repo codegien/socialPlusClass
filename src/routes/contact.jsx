@@ -1,8 +1,8 @@
 import { Form, useLoaderData } from "react-router-dom";
-import { getContacts } from "../contact";
+import { getContact } from "../contact";
 
 export async function loader({ params }) {
-	const contact = await getContacts(params.contactId);
+	const contact = await getContact(params.contactId);
 	return { contact };
 }
 
@@ -22,19 +22,21 @@ const Favorite = () => {
 };
 
 const Contact = () => {
+	const { contact } = useLoaderData();
+	console.log(contact);
 	return (
 		<div id='contact'>
 			<div>
 				<img
-					key={loader.avatar}
-					src={loader.avatar || null}
+					key={contact.avatar}
+					src={contact.avatar || null}
 				/>
 			</div>
 			<div>
 				<h1>
-					{loader.firstname || loader.lastname ? (
+					{contact.first || contact.last ? (
 						<>
-							{loader.firstname} {loader.lastname}
+							{contact.first} {contact.last}
 						</>
 					) : (
 						<i>No name</i>
@@ -42,16 +44,16 @@ const Contact = () => {
 					<Favorite />
 				</h1>
 
-				{loader.x && (
+				{contact.twitter && (
 					<p>
 						<a
 							target='_blank'
-							href={`https://twitter.com/${loader.x}`}>
-							{loader.x}
+							href={`https://twitter.com/${contact.twitter}`}>
+							{contact.twitter}
 						</a>
 					</p>
 				)}
-				{loader.bio && <p>{loader.bio}</p>}
+				{contact.note && <p>{contact.note}</p>}
 				<div>
 					<Form action='edit'>
 						<button type='submit'>Edit</button>
