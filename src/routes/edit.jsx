@@ -3,6 +3,7 @@ import { updateContact } from "../contact";
 
 export async function action({ request, params }) {
 	const formData = await request.formData();
+	console.log(formData);
 	const updates = Object.fromEntries(formData);
 	await updateContact(params.contactId, updates);
 	return redirect(`/contacts/${params.contactId}`);
@@ -10,6 +11,7 @@ export async function action({ request, params }) {
 
 export default function EditContact() {
 	const { contact } = useLoaderData();
+
 	return (
 		<Form
 			method='post'
@@ -21,14 +23,14 @@ export default function EditContact() {
 					aria-label='First name'
 					type='text'
 					name='first'
-					defaultValue={contact.firstname}
+					defaultValue={contact.first}
 				/>
 				<input
 					placeholder='Last'
 					aria-label='Last name'
 					type='text'
 					name='last'
-					defaultValue={contact.lastname}
+					defaultValue={contact.last}
 				/>
 			</p>
 			<label>
@@ -37,7 +39,7 @@ export default function EditContact() {
 					type='text'
 					name='twitter'
 					placeholder='@john'
-					defaultValue={contact.x}
+					defaultValue={contact.twitter}
 				/>
 			</label>
 			<label>
@@ -49,12 +51,13 @@ export default function EditContact() {
 					name='avatar'
 					defaultValue={contact.avatar}
 				/>
+				<button type='button'> Select picture</button>
 			</label>
 			<label>
 				<span>Notes</span>
 				<textarea
 					name='notes'
-					defaultValue={contact.bio}
+					defaultValue={contact.notes}
 					rows={6}
 				/>
 			</label>
